@@ -18,9 +18,22 @@ const PORT = process.env.PORT || 5000;
 //   max: 100, // limit each IP to 100 requests per windowMs
 // });
 
+// CORS configuration - ALLOW YOUR NETLIFY FRONTEND
+const corsOptions = {
+  origin: [
+    'https://dropyourfiles.netlify.app', // Your Netlify frontend
+    'http://localhost:5173', // Vite dev server
+    'http://localhost:3000', // Create React App dev server
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
 // Middleware
 app.use(helmet());
-app.use(cors());
+app.use(cors(corsOptions)); // Use the specific CORS options
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // app.use('/api', limiter);
@@ -36,6 +49,15 @@ app.get('/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
+// Test route to verify CORS
+app.get('/api/test-cors', (req, res) => {
+  res.json({ 
+    message: 'CORS is working!',
+    allowedOrigins: corsOptions.origin,
+    frontend: 'https://dropyourfiles.netlify.app'
+  });
+});
+
 // Start server
 connectDB().then(() => {
   // Start cleanup job
@@ -44,6 +66,7 @@ connectDB().then(() => {
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
     console.log(`Uploads directory: ${__dirname}/../uploads`);
+    console.log(`CORS enabled for: ${corsOptions.origin.join(', ')}`);
   });
 });
 
