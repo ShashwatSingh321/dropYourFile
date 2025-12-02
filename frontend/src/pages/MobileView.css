@@ -1,0 +1,54 @@
+.mobile-view {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.desktop-warning {
+  background: #fff3cd;
+  color: #856404;
+  padding: 15px;
+  text-align: center;
+  border-bottom: 1px solid #ffeaa7;
+  font-size: 14px;
+}
+
+.desktop-warning a {
+  color: #0056b3;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.desktop-warning a:hover {
+  color: #003d82;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .desktop-warning {
+    display: none;
+  }
+}
+
+/* Tablet styles */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .desktop-warning {
+    font-size: 13px;
+    padding: 12px;
+  }
+}
+
+/* Animation for page load */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobile-view {
+  animation: fadeIn 0.5s ease-out;
+}
